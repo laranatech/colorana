@@ -1,0 +1,53 @@
+{
+	"name": "colorana",
+	"version": "1.0.0",
+	"description": "Larana rendering engine — base classes + JS canvas renderer",
+	"keywords": [
+		"larana",
+		"rendering",
+		"UI",
+		"canvas"
+	],
+	"homepage": "https://github.com/laranatech/colorana#readme",
+	"bugs": {
+		"url": "https://github.com/laranatech/colorana/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/laranatech/colorana.git"
+	},
+	"license": "MIT",
+	"author": "Evgenii Kucheriavyi",
+	"type": "module",
+	"main": "dist/index.cjs",
+	"module": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"exports": {
+		"import": "./dist/index.js",
+		"require": "./dist/index.cjs"
+	},
+	"scripts": {
+		"dev": "vite",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"lint": "eslint src",
+		"lint:fix": "eslint src --fix",
+		"ts-check": "tsc --noEmit",
+		"check": "npm run lint & npm run ts-check",
+		"build": "tsup",
+		"publish": "npm run build & npm publish --access=public"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.21.0",
+		"eslint": "^9.21.0",
+		"globals": "^16.0.0",
+		"tsup": "^8.4.0",
+		"typescript": "^5.7.3",
+		"typescript-eslint": "^8.25.0",
+		"vite": "^6.2.3",
+		"vitest": "^3.0.7"
+	},
+	"dependencies": {
+		"@laranatech/lareq": "^1.1.5"
+	}
+}
