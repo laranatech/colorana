@@ -1,5 +1,5 @@
 {
-	"name": "colorana",
+	"name": "@laranatech/colorana",
 	"version": "1.0.0",
 	"description": "Larana rendering engine — base classes + JS canvas renderer",
 	"keywords": [
