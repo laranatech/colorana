@@ -30,10 +30,10 @@ export class CanvasRenderer extends BaseRenderer {
 
 		this.preloadImages()
 
-		this.resize(window.innerHeight, window.innerWidth)
+		this.resize(window.innerWidth, window.innerHeight)
 
 		window.addEventListener('resize', () => {
-			this.resize(window.innerHeight, window.innerWidth)
+			this.resize(window.innerWidth, window.innerHeight)
 		})
 	}
 
