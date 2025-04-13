@@ -3,7 +3,14 @@ import { CommandType, DrawImageOpts, RenderCommand, getCommandNameByByte } from 
 import { commandHandlers } from './command-handlers'
 import { debounce } from './utils'
 
+export type CanvasRendererConfig = RendererConfig & {
+	canvasId?: string
+	canvasElement?: HTMLCanvasElement
+}
+
 export class CanvasRenderer extends BaseRenderer {
+	config: CanvasRendererConfig
+
 	canvas: HTMLCanvasElement | null = null
 	ctx: CanvasRenderingContext2D | null = null
 
@@ -11,8 +18,15 @@ export class CanvasRenderer extends BaseRenderer {
 
 	lastQueue: RenderCommand[] = []
 
-	constructor(config: RendererConfig) {
+	constructor(config: CanvasRendererConfig) {
 		super(config)
+		this.config = config
+	}
+
+	initResize() {
+		if (!this.canvas) {
+			return
+		}
 
 		this.resize = debounce((w: number, h: number) => {
 			if (!this.canvas) {
@@ -22,19 +36,41 @@ export class CanvasRenderer extends BaseRenderer {
 			this.canvas.height = h
 			this.render(this.lastQueue)
 		}, 16)
+
+		const observer = new ResizeObserver((entries) => {
+			for (const entry of entries) {
+				if (!entry.borderBoxSize) {
+					continue
+				}
+
+				const box = entry.borderBoxSize[0]
+
+				const w = box.inlineSize
+				const h = box.blockSize
+
+				this.resize(w, h)
+			}
+		})
+
+		observer.observe(this.canvas)
+
+		const box = this.canvas.getBoundingClientRect()
+
+		this.resize(box.width, box.height)
 	}
 
 	init() {
-		this.canvas = document.getElementById('larana-canvas') as HTMLCanvasElement
-		this.ctx = this.canvas.getContext('2d')
-
 		this.preloadImages()
 
-		this.resize(window.innerWidth, window.innerHeight)
+		if (this.config.canvasElement) {
+			this.canvas = this.config.canvasElement
+		} else {
+			this.canvas = document.getElementById(this.config.canvasId || 'larana-canvas') as HTMLCanvasElement
+		}
 
-		window.addEventListener('resize', () => {
-			this.resize(window.innerWidth, window.innerHeight)
-		})
+		this.ctx = this.canvas.getContext('2d')
+
+		this.initResize()
 	}
 
 	prepare(queue: RenderCommand[]) {
