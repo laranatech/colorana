@@ -33,13 +33,13 @@ export const commandHandlers: Record<PrimitiveCommandType, CommandHandler> = {
 			if (['radius', 'pattern'].includes(key)) {
 				return
 			}
-			if (!(key in ctx)) {
-				return
-			}
-			// TypeScript doesn't allow dynamic keys on CanvasRenderingContext2D, so we assert `any`.
-			(ctx as any)[key] = value
-
-			
+			// if (!(key in ctx)) {
+			// 	return
+			// }
+			if (key in ctx && typeof ctx[key] === typeof value) {
+				// Ensure type safety by checking types match before assignment
+				ctx[key] = value as CanvasRenderingContext2D[keyof CanvasRenderingContext2D];
+			  }
 		})
 	},
 	arc: (_canvas, ctx, _images, command) => {
