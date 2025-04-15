@@ -33,12 +33,16 @@ export const commandHandlers: Record<PrimitiveCommandType, CommandHandler> = {
 			if (['radius', 'pattern'].includes(key)) {
 				return
 			}
-			// if (!(key in ctx)) {
-			// 	return
-			// }
-			if (key in ctx && typeof ctx[key] === typeof value) {
-				// Ensure type safety by checking types match before assignment
-				ctx[key] = value as CanvasRenderingContext2D[keyof CanvasRenderingContext2D];
+			if (!(key in ctx)) {
+				return
+			}
+			if (key in ctx) {
+				const current = ctx[key as keyof CanvasRenderingContext2D];
+				// console.log("Curr",current)
+				if (typeof current === typeof value) {
+					(ctx as Record<typeof key, typeof value>)[key] = value;
+				//   console.log(key, "-- set to ", value);
+				}
 			  }
 		})
 	},
