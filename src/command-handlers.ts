@@ -37,11 +37,11 @@ export const commandHandlers: Record<PrimitiveCommandType, CommandHandler> = {
 				return
 			}
 			if (key in ctx) {
-				const current = ctx[key as keyof CanvasRenderingContext2D];
-				// console.log("Curr",current)
+				const current = ctx[key as keyof CanvasRenderingContext2D]
+				
 				if (typeof current === typeof value) {
-					(ctx as Record<typeof key, typeof value>)[key] = value;
-				//   console.log(key, "-- set to ", value);
+					(ctx as Record<typeof key, typeof value>)[key] = value
+				
 				}
 			  }
 		})
