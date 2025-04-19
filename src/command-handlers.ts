@@ -36,8 +36,10 @@ export const commandHandlers: Record<PrimitiveCommandType, CommandHandler> = {
 			if (!(key in ctx)) {
 				return
 			}
-			// @ts-expect-error `Type 'string | number' is not assignable to type 'never'.`
-			ctx[key] = value
+			const current = ctx[key as keyof CanvasRenderingContext2D]
+			if (typeof current === typeof value) {
+				(ctx as Record<typeof key, typeof value>)[key] = value
+			}
 		})
 	},
 	arc: (_canvas, ctx, _images, command) => {
