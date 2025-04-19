@@ -36,14 +36,10 @@ export const commandHandlers: Record<PrimitiveCommandType, CommandHandler> = {
 			if (!(key in ctx)) {
 				return
 			}
-			if (key in ctx) {
-				const current = ctx[key as keyof CanvasRenderingContext2D]
-				
-				if (typeof current === typeof value) {
-					(ctx as Record<typeof key, typeof value>)[key] = value
-				
-				}
-			  }
+			const current = ctx[key as keyof CanvasRenderingContext2D]
+			if (typeof current === typeof value) {
+				(ctx as Record<typeof key, typeof value>)[key] = value
+			}
 		})
 	},
 	arc: (_canvas, ctx, _images, command) => {
