@@ -1,6 +1,7 @@
 import {
 	ArcOpts,
 	ArcToOpts,
+	BezierQurveToOpts,
 	Box,
 	CommandOptions,
 	DrawImageOpts,
@@ -51,8 +52,9 @@ export const commandHandlers: Record<PrimitiveCommandType, CommandHandler> = {
 		const o = command.o as ArcToOpts
 		ctx.arcTo(o.a.x, o.a.y, o.b.x, o.b.y, o.radius)
 	},
-	bezierQurveTo: (_canvas, _ctx, _images, _command) => {
-		throw new Error('Function not implemented.')
+	bezierQurveTo: (_canvas, ctx, _images, command) => {
+		const o = command.o as BezierQurveToOpts
+		ctx.bezierCurveTo(o.c1.x, o.c1.y, o.c2.x, o.c2.y, o.p.x, o.p.y)
 	},
 	clip: (_canvas, ctx, _images, _command) => {
 		ctx.clip()
